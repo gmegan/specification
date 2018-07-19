@@ -14,7 +14,7 @@ shmem_team_t *zaxis_team);
 
 \begin{apiarguments}
 \apiargument{IN}{parent\_team}{A valid \openshmem team. The predefined teams
-\LibHandleRef{SHMEM\_TEAM\_WORLD} or \LibHandleRef{SHMEM\_TEAM\_NODE} may be
+\LibHandleRef{SHMEM\_TEAM\_WORLD} or \LibHandleRef{SHMEM\_TEAM\_SHARED} may be
 used, or any team created by the user.}
 
 \apiargument{IN}{options}{The set of options requested for the new teams.
@@ -80,7 +80,7 @@ The following options can be supplied during team split to restrict
 team functions and enable performance optimizations.  When using a given
 team, the application must comply with the requirements of all options
 set on that team; otherwise, the behavior is undefined.
-No options are enabled on \LibHandleRef{SHMEM\_TEAM\_WORLD} or \LibHandleRef{SHMEM\_TEAM\_NODE}.
+No options are enabled on \LibHandleRef{SHMEM\_TEAM\_WORLD} or \LibHandleRef{SHMEM\_TEAM\_SHARED}.
 
     \apitablerow{\LibConstRef{SHMEM\_TEAM\_NOCOLLECTIVE}}{
                  The new team will not be created with the necessary support
