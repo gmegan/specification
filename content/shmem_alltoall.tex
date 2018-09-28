@@ -1,5 +1,6 @@
 \apisummary{
-    shmem\_alltoall is a collective routine where each \ac{PE} exchanges a fixed amount of data with all other \acp{PE} in the
+    \FUNC{shmem\_alltoall} is a collective routine where each \ac{PE}
+    exchanges a fixed amount of data with all other \acp{PE} in the
     active set.
 }
 
@@ -96,8 +97,8 @@ The  \dest{}  and \source{} data  objects must conform to certain typing
 constraints, which are as follows:
 }{Routine}{Data type of \VAR{dest} and \VAR{source}}
 
-\apitablerow{shmem\_alltoall64}{\CONST{64} bits aligned.}
-\apitablerow{shmem\_alltoall32}{\CONST{32} bits aligned.}
+\apitablerow{\FUNC{shmem\_alltoall64}}{\CONST{64} bits aligned.}
+\apitablerow{\FUNC{shmem\_alltoall32}}{\CONST{32} bits aligned.}
 
 \apireturnvalues{
     None.
