@@ -1,0 +1,82 @@
+\apisummary{
+    Transfers fixed-size blocks of data from each \ac{PE} in a team
+    to all \acp{PE} in the team.
+}
+
+\begin{apidefinition}
+
+\begin{Csynopsis}
+void @\FuncDecl{shmem\_team\_alltoall8}@(shmem_team_t team, void *dest, const void *source, size_t nelems);
+void @\FuncDecl{shmem\_team\_alltoall16}@(shmem_team_t team, void *dest, const void *source, size_t nelems);
+void @\FuncDecl{shmem\_team\_alltoall32}@(shmem_team_t team, void *dest, const void *source, size_t nelems);
+void @\FuncDecl{shmem\_team\_alltoall64}@(shmem_team_t team, void *dest, const void *source, size_t nelems);
+\end{Csynopsis}
+
+\begin{apiarguments}
+
+\apiargument{IN}{team}{A valid \openshmem team handle to a team which has been
+    created without disabling support for collective operations.}
+\apiargument{OUT}{dest}{A symmetric data object large enough to receive the
+    combined total of \VAR{nelems} elements from each \ac{PE} in the team.}
+\apiargument{IN}{source}{A symmetric data object that contains \VAR{nelems}
+    elements of data for each \ac{PE} in the team, ordered according to
+    destination \ac{PE}.}
+\apiargument{IN}{nelems}{The number of elements to transfer to each \ac{PE}.}
+
+\end{apiarguments}
+
+\apidescription{
+    The \FUNC{shmem\_team\_alltoall} routines are collective data-exchange
+    operations performed by \acp{PE} in a team.
+    Each \ac{PE} in the team transfers \VAR{nelems} data elements to all
+    \acp{PE} in the team.
+    The data are sent from and stored to the contiguous symmetric data
+    objects \source{} and \dest{}, respectively.
+
+    Both \source{} and \dest{} objects contain \VAR{N} blocks of data,
+    where \VAR{N} is the size of the team, each block contains \VAR{nelems}
+    elements of size \VAR{M} bits, and \VAR{M} corresponds to the numeric
+    suffix in the \FUNC{shmem\_team\_alltoall} routine name
+    (e.g., \FUNC{shmem\_team\_alltoall64} transfers 64-bit elements, that is,
+    $M = 64$).
+    The total size of each \ac{PE}'s \source{} object and \dest{} object
+    is $nelems \cdot N \cdot M$.
+
+    Given a \ac{PE} \VAR{i} that is the \kth PE in the team and a \ac{PE}
+    \VAR{j} that is the \lth \ac{PE} in the team,
+    \ac{PE} \VAR{i} sends the \lth block of its \source{} object to
+    the \kth block of the \dest{} object of \ac{PE} \VAR{j}.
+
+    The values of arguments \VAR{nelems} must be equal on all \acp{PE}
+    in the team.
+    The same \dest{} and \source{} data objects must be passed by
+    all \acp{PE} in the team.
+
+    Upon entry to a \FUNC{shmem\_team\_alltoall} routine by any \ac{PE}, the
+    \source{} and \dest{} data objects on all \acp{PE} in the team must
+    be ready to send or receive the data to be transferred, respectively.
+
+    Upon return from a \FUNC{shmem\_team\_alltoall} routine, the following
+    is true for the local PE:
+    Its \dest{} symmetric data object is completely updated and the data
+    has been copied out of the \source{} data object.
+}
+
+\apidesctable{The \dest{} and \source{} data objects must conform
+  to certain alignment constraints, which are as follows:
+}{Routine}{Data type of \dest{} and \source{}}
+\apitablerow{shmem\_alltoall8}{\CONST{8} bits aligned}
+\apitablerow{shmem\_alltoall16}{\CONST{16} bits aligned}
+\apitablerow{shmem\_alltoall32}{\CONST{32} bits aligned}
+\apitablerow{shmem\_alltoall64}{\CONST{64} bits aligned}
+
+\apireturnvalues{
+    None.
+}
+
+\apinotes{
+    None.
+}
+
+\end{apidefinition}
+
