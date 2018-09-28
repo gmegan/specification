@@ -28,6 +28,7 @@ void @\FuncDecl{shmem\_team\_alltoall64}@(shmem_team_t team, void *dest, const v
 \apidescription{
     The \FUNC{shmem\_team\_alltoall} routines are collective data-exchange
     operations performed by \acp{PE} in a team.
+
     Each \ac{PE} in the team transfers \VAR{nelems} data elements to all
     \acp{PE} in the team.
     The data are sent from and stored to the contiguous symmetric data
@@ -37,7 +38,7 @@ void @\FuncDecl{shmem\_team\_alltoall64}@(shmem_team_t team, void *dest, const v
     where \VAR{N} is the size of the team, each block contains \VAR{nelems}
     elements of size \VAR{M} bits, and \VAR{M} corresponds to the numeric
     suffix in the \FUNC{shmem\_team\_alltoall} routine name
-    (e.g., \FUNC{shmem\_team\_alltoall64} transfers 64-bit elements, that is,
+    (e.g., \FUNC{shmem\_team\_alltoall64} transfers 64-bit elements; that is,
     $M = 64$).
     The total size of each \ac{PE}'s \source{} object and \dest{} object
     is $nelems \cdot N \cdot M$.
