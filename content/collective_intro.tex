@@ -1,11 +1,55 @@
-\emph{Collective routines} are defined as communication or synchronization
-operations on a group of \acp{PE} called an active set. The collective
-routines require all \acp{PE} in the active set to simultaneously call the
-routine.  A \ac{PE} that is not in the active set calling the collective
-routine results in undefined behavior.  All collective routines have an
+\emph{Collective routines} are defined as \newtext{coordinated} communication or
+synchronization operations performed \newtext{by} \oldtext{on} a group of \acp{PE} \oldtext{called an active set}.
+{\color{ForestGreen} % <start-newtext>
+\openshmem provides collective routines that operate on teams
+(see Section~\ref{subsec:team} on team management)
+\DeprecateInline{and active sets}.
+
+The team-based collective routines are performed with respect to a valid
+\openshmem team, which is specified by a team handle argument.
+Team-based collective operations require all \acp{PE} in the team to call
+the routine in order for the operation to complete.
+
+A team-based collective operation is considered \emph{active} on a \ac{PE}
+when that \ac{PE} calls one of the team-based collective routines.
+Such operations may be blocking or nonblocking and the nature of which
+determines the conditions under which the operation is considered complete:
+
+\begin{itemize}
+\item A \emph{blocking collective} operation is active on the calling \ac{PE}
+  from the call of the collective routine to its return.
+  Upon return, the operation is complete.
+\item A \emph{nonblocking collective} operation is active on the calling
+  \ac{PE} upon calling the collective routine.
+  The operation remains active until it is completed by a call to
+  \FUNC{shmem\_team\_sync}.
+\end{itemize}
+
+When an operation is considered \emph{complete}, any source object(s) to the
+operation may be reused and any resultant data from the operation may be
+accessed from the destination object(s).
+At most one collective operation, blocking or nonblocking, may be active
+on a team at once.
+% Should this be called out as a "Note to Developers"?
+% This is a confusing sentence.
+A \ac{PE} may have more than one active collective operation concurrently by
+using multiple teams--any of which may represent the same subset of \acp{PE}
+as any other team--either through blocking collectives on distinct teams
+in separate threads or nonblocking collectives on distinct teams in one or
+more threads.
+} % <end-newtext>
+
+\begin{DeprecateBlock}
+The \newtext{active set-based} collective routines require all \acp{PE}
+in the active set to simultaneously call the routine.
+A \ac{PE} that is not in the active set calling the collective
+routine results in undefined behavior.
+\oldtext{
+All collective routines have an
 active set as an input parameter except \FUNC{shmem\_barrier\_all} and
 \FUNC{shmem\_sync\_all}. Both \FUNC{shmem\_barrier\_all} and
 \FUNC{shmem\_sync\_all} must be called by all \acp{PE} of the \openshmem program.
+}
 
 The active set is defined by the arguments \VAR{PE\_start}, \VAR{logPE\_stride},
 and \VAR{PE\_size}.  \VAR{PE\_start} specifies the starting \ac{PE} number and
@@ -16,29 +60,29 @@ be greater than or equal to zero.  \VAR{PE\_size} specifies the number of
 satisfy the requirement that its last member corresponds to a valid \ac{PE}
 number, that is
 $0 \le PE\_start + (PE\_size - 1) * 2^{logPE\_stride} < npes$.
-All \acp{PE} participating in the collective routine must provide the same
+All \acp{PE} participating in the \newtext{active set-based} collective routine must provide the same
 values for these arguments.  If any of these requirements are not met, the
 behavior is undefined.
 
-Another argument important to collective routines is \VAR{pSync}, which is a
-symmetric work array.  All \acp{PE} participating in a collective must pass the
-same \VAR{pSync} array.  On completion of a collective call, the \VAR{pSync} is
+Another argument important to \newtext{active set-based} collective routines is \VAR{pSync}, which is a
+symmetric work array.  All \acp{PE} participating in a\newtext{n active set-based} collective must pass the
+same \VAR{pSync} array.  On completion of \newtext{such} a \oldtext{collective} call, the \VAR{pSync} is
 restored to its original contents.  The user is permitted to reuse a \VAR{pSync}
 array if all previous collective routines using the \VAR{pSync} array have been
 completed by all participating \acp{PE}.  One can use a synchronization
-collective routine such as \FUNC{shmem\_barrier} to ensure completion of previous collective
+collective routine such as \FUNC{shmem\_barrier} to ensure completion of previous \newtext{active set-based} collective
 routines. The \FUNC{shmem\_barrier} and \FUNC{shmem\_sync} routines allow the same
 \VAR{pSync} array to be used on consecutive calls as long as the \acp{PE}
 in the active set do not change.
 
-All collective routines defined in the Specification are blocking.  The
-collective routines return on completion.  The collective routines defined in
-the \openshmem Specification are:
+All \newtext{active set-based} collective routines defined in the Specification are blocking.
+\newtext{These} \oldtext{The} collective routines return on completion.
+The \newtext{active set-based} collective routines defined in the \openshmem Specification are:
 
 \begin{itemize}
-\item \FUNC{shmem\_barrier\_all}
+\item \oldtext{\FUNC{shmem\_barrier\_all}}
 \item \FUNC{shmem\_barrier}
-\item \FUNC{shmem\_sync\_all}
+\item \oldtext{\FUNC{shmem\_sync\_all}}
 \item \FUNC{shmem\_sync}
 \item \FUNC{shmem\_broadcast\{32, 64\}}
 \item \FUNC{shmem\_collect\{32, 64\}}
@@ -47,3 +91,17 @@ the \openshmem Specification are:
 \item \FUNC{shmem\_alltoall\{32, 64\}}
 \item \FUNC{shmem\_alltoalls\{32, 64\}}
 \end{itemize}
+\end{DeprecateBlock}
+
+\newtext{
+Additionally, \openshmem provides two synchronization routines for backward
+compatibility, which are defined with semantic equivalence to team- and
+context-based routines:
+\begin{itemize}
+\item \FUNC{shmem\_sync\_all}, which is equivalent to \FUNC{shmem\_team\_sync}
+  on \LibConstRef{SHMEM\_TEAM\_WORLD}, and
+\item \FUNC{shmem\_barrier\_all}, which is equivalent to
+  \FUNC{shmem\_ctx\_quiet} on the default context followed by
+  \FUNC{shmem\_team\_sync} on \LibConstRef{SHMEM\_TEAM\_WORLD}
+\end{itemize}
+}
