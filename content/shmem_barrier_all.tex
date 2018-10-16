@@ -1,7 +1,9 @@
 \apisummary{
-    Registers the arrival of a \ac{PE} at a barrier and blocks the \ac{PE}
-    until all other \acp{PE} arrive at the barrier and all local
-    updates and remote memory updates on the default context are completed.
+{\color{Green}
+    Performs all operations described in the \FUNC{shmem\_barrier} interface
+    but implicitly operates on \LibHandleRef{SHMEM\_TEAM\_WORLD} using
+    \LibHandleRef{SHMEM\_CTX\_DEFAULT}.
+}
 }
 
 \begin{apidefinition}
@@ -20,12 +22,17 @@ CALL @\FuncDecl{SHMEM\_BARRIER\_ALL}@
 
 \end{apiarguments}
 
-\apidescription{   
-    The \FUNC{shmem\_barrier\_all} routine registers the arrival of a \ac{PE} at
-    a barrier. Barriers are a mechanism for synchronizing all \acp{PE} at
-    once. This routine blocks the \ac{PE} until all \acp{PE} have called
-    \FUNC{shmem\_barrier\_all}. In a multithreaded \openshmem
+\apidescription{
+    {\color{Green}
+    \FUNC{shmem\_barrier\_all} is a collective synchronization routine over
+    \LibHandleRef{SHMEM\_TEAM\_WORLD} using \LibHandleRef{SHMEM\_CTX\_DEFAULT}.
+    It is equivalent to calling
+    \FUNC{shmem\_ctx\_barrier(SHMEM\_CTX\_DEFAULT)}.
+
+    This routine blocks the \ac{PE} until all \acp{PE} in the \openshmem
+    program have called \FUNC{shmem\_barrier\_all}. In a multithreaded \openshmem
     program, only the calling thread is blocked.
+    }
 
     Prior to synchronizing with other \acp{PE}, \FUNC{shmem\_barrier\_all}
     ensures completion of all previously issued memory stores and remote memory
