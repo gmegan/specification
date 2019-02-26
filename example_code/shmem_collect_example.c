@@ -23,7 +23,7 @@ int main(void)
    /* Wait for all PEs to initialize source/dest: */
    shmem_team_sync(SHMEM_TEAM_WORLD);
 
-   shmem_team_collect32(dest, source, my_nelem, SHMEM_TEAM_WORLD);
+   shmem_team_collect(dest, source, my_nelem, SHMEM_TEAM_WORLD);
 
    shmem_set_lock(&lock); /* Lock prevents interleaving printfs */
    printf("%d: %d", me, dest[0]);

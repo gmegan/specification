@@ -14,7 +14,8 @@ int main(void)
       for (int i = 0; i < 4; i++)
          source[i] = i;
 
-   shmem_team_broadcast64(dest, source, 4, 0, SHMEM_TEAM_WORLD);
+   shmem_team_broadcast(dest, source, 4, 0, SHMEM_TEAM_WORLD);
+
    printf("%d: %ld, %ld, %ld, %ld\n", me, dest[0], dest[1], dest[2], dest[3]);
    shmem_finalize();
    return 0;

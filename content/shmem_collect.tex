@@ -48,9 +48,9 @@ CALL @\FuncDecl{SHMEM\_FCOLLECT64}@(dest, source, nelems, PE_start, logPE_stride
 
 \begin{apiarguments}
 
-\apiargument{OUT}{dest}{\newtext{A remotely accessible array} large enough
+\apiargument{OUT}{dest}{A symmetric array large enough
     to accept the concatenation of the \source{} arrays on all participating \acp{PE}.}
-\apiargument{IN}{source}{\newtext{The remotely accessible data object to be concatenated.}}
+\apiargument{IN}{source}{\newtext{The symmetric data object to be concatenated.}}
 \apiargument{IN}{nelems}{The number of elements in the \source{} array. \VAR{nelems}
     must be of type \VAR{size\_t} for \Cstd. When using \Fortran, it must be
     a default integer value.}
