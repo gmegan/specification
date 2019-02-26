@@ -452,6 +452,12 @@ CALL @\FuncDecl{SHMEM\_REAL16\_PROD\_TO\_ALL}@(dest, source, nreduce, PE_start, 
 
 \begin{apiexamples}
 
+\apicexample
+    { The following \Cstd[11] example performs a \OPR{SUM} reduction of the
+    integer array \VAR{values} across all PEs:}
+    {./example_code/shmem_sum_example.c}
+    {}
+
 \apifexample
     {This \Fortran reduction example statically initializes the \VAR{pSync} array
     and finds the logical \OPR{AND} of the integer variable \VAR{FOO} across all
