@@ -8,20 +8,20 @@
 %% C11
 {\color{Green}
 \begin{C11synopsis}
-int @\FuncDecl{shmem\_broadcast32}@(void *dest, const void *source, size_t nelems, int PE_root, shmem_team_t team);
-int @\FuncDecl{shmem\_broadcast64}@(void *dest, const void *source, size_t nelems, int PE_root, shmem_team_t team);
+int @\FuncDecl{shmem\_broadcast}@(TYPE *dest, const TYPE *source, size_t nelems, int PE_root, shmem_team_t team);
 \end{C11synopsis}
+where \TYPE{} is one of the standard \ac{RMA} types specified by Table
+\ref{stdrmatypes}.
 }
 
 %% C/C++
-\begin{Csynopsis}
-\end{Csynopsis}
 {\color{Green}
-\begin{CsynopsisCol}
-int @\FuncDecl{shmem\_team\_broadcast32}@(void *dest, const void *source, size_t nelems, int PE_root, shmem_team_t team);
-int @\FuncDecl{shmem\_team\_broadcast64}@(void *dest, const void *source, size_t nelems, int PE_root, shmem_team_t team);
-\end{CsynopsisCol}
+\begin{Csynopsis}
+int @\FuncDecl{shmem\_team\_\FuncParam{TYPENAME}\_broadcast}@(TYPE *dest, const TYPE *source, size_t nelems, int PE_root, shmem_team_t team);
+\end{Csynopsis}
+where \TYPE{} is one of the standard \ac{RMA} types and has a corresponding \TYPENAME{} specified by Table \ref{stdrmatypes}.
 }
+
 \begin{DeprecateBlock}
 \begin{CsynopsisCol}
 void @\FuncDecl{shmem\_broadcast32}@(void *dest, const void *source, size_t nelems, int PE_root, int PE_start, int logPE_stride, int PE_size, long *pSync);
@@ -40,13 +40,9 @@ CALL @\FuncDecl{SHMEM\_BROADCAST64}@(dest, source, nelems, PE_root, PE_start, lo
  
 \begin{apiarguments}
 
-\apiargument{OUT}{dest}{A symmetric data object. \newtext{See the table below in this description
-    for allowable types.}} 
-\apiargument{IN}{source}{A symmetric data object that can be of any data type
-    that is permissible for the \dest{} argument.}
-\apiargument{IN}{nelems}{The number of elements in \source.  For
-    \FUNC{shmem\_broadcast32} and \FUNC{shmem\_broadcast4}, this is the number of
-    32-bit halfwords.  nelems must be of type \VAR{size\_t} in \Cstd.  When
+\apiargument{OUT}{dest}{\newtext{A remotely accessible data object to be updated by the broadcast operation.}}
+\apiargument{IN}{source}{\newtext{A remotely accessible data object to be broadcast from \VAR{PE\_root}.}}
+    \apiargument{IN}{nelems}{The number of elements in the \newtext{\dest{} and \source{} arrays}.  \oldtext{For \FUNC{shmem\_broadcast32} and \FUNC{shmem\_broadcast4}, this is the number of 32-bit halfwords}.  \VAR{nelems} must be of type \VAR{size\_t} in \Cstd.  When
     using \Fortran, it must be a default integer value.}
 \apiargument{IN}{PE\_root}{Zero-based ordinal of the \ac{PE}, with respect to
     the \newtext{team or} active set, from which the data is copied.
@@ -138,6 +134,7 @@ CALL @\FuncDecl{SHMEM\_BROADCAST64}@(dest, source, nelems, PE_root, PE_start, lo
     \end{itemize}
 }
 
+\begin{DeprecateBlock}
 \apidesctable{
 The  \dest{}  and \source{} data  objects must conform to certain typing
 constraints, which are as follows:
@@ -149,6 +146,7 @@ constraints, which are as follows:
 \apitablerow{shmem\_broadcast4, shmem\_broadcast32}{Any noncharacter
     type that has an element size of \CONST{32} bits. No \Fortran derived types \newtext{nor} \oldtext{or} 
     \CorCpp{} structures are allowed.}
+\end{DeprecateBlock}
 
 \apireturnvalues{
    \newtext{Zero on successful local completion. Nonzero otherwise.}

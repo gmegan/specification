@@ -7,18 +7,18 @@
 %% C11
 {\color{Green}
 \begin{C11synopsis}
-int @\FuncDecl{shmem\_alltoall32}@(void *dest, const void *source, size_t nelems, shmem_team_t team);
-int @\FuncDecl{shmem\_alltoall64}@(void *dest, const void *source, size_t nelems, shmem_team_t team);
+int @\FuncDecl{shmem\_alltoall}@(TYPE *dest, const TYPE *source, size_t nelems, shmem_team_t team);
 \end{C11synopsis}
+where \TYPE{} is one of the standard \ac{RMA} types specified by Table
+\ref{stdrmatypes}.
 }
 
-\begin{Csynopsis}
-\end{Csynopsis}
 {\color{Green}
-\begin{CsynopsisCol}
-int @\FuncDecl{shmem\_team\_alltoall32}@(void *dest, const void *source, size_t nelems, shmem_team_t team);
-int @\FuncDecl{shmem\_team\_alltoall64}@(void *dest, const void *source, size_t nelems, shmem_team_t team);
-\end{CsynopsisCol}
+\begin{Csynopsis}
+int @\FuncDecl{shmem\_team\_\FuncParam{TYPENAME}\_alltoall}@(TYPE *dest, const TYPE *source, size_t nelems, shmem_team_t team);
+\end{Csynopsis}
+where \TYPE{} is one of the standard \ac{RMA} types and has a corresponding
+\TYPENAME{} specified by Table \ref{stdrmatypes}.
 }
 
 \begin{DeprecateBlock}
@@ -37,10 +37,10 @@ CALL @\FuncDecl{SHMEM\_ALLTOALL64}@(dest, source, nelems, PE_start, logPE_stride
 
 \begin{apiarguments}
 
-\apiargument{OUT}{dest}{A symmetric data object large enough to receive
+\apiargument{OUT}{dest}{A remotely accessible data object large enough to receive
     the combined total of \VAR{nelems} elements from each \ac{PE} in the
     active set.}
-\apiargument{IN}{source}{A symmetric data object that contains \VAR{nelems}
+\apiargument{IN}{source}{A remotely accessible data object that contains \VAR{nelems}
     elements of data for each \ac{PE} in the active set, ordered according to
     destination \ac{PE}.}
 \apiargument{IN}{nelems}{The number of elements to exchange for each \ac{PE}.
@@ -75,13 +75,13 @@ CALL @\FuncDecl{SHMEM\_ALLTOALL64}@(dest, source, nelems, PE_start, logPE_stride
 \apidescription{
     The \FUNC{shmem\_alltoall} routines are collective routines. Each \ac{PE}
     \oldtext{in the active set} \newtext{participating in the operation}
-    exchanges \VAR{nelems} data elements of size
-    32 bits (for \FUNC{shmem\_alltoall32}) or 64 bits (for \FUNC{shmem\_alltoall64})
+    exchanges \VAR{nelems} data elements \oldtext{of size
+    32 bits (for \FUNC{shmem\_alltoall32}) or 64 bits (for \FUNC{shmem\_alltoall64})}
     with all other \acp{PE} \oldtext{in the set}
     \newtext{participating in the operation}. The data being sent and received are
     stored in a contiguous symmetric data object. The total size of each \acp{PE}
     \VAR{source} object and \VAR{dest} object is \VAR{nelems} times the size of
-    an element (32 bits or 64 bits) times \oldtext{\VAR{PE\_size}}
+    an element \oldtext{(32 bits or 64 bits)} times \oldtext{\VAR{PE\_size}}
     \newtext{\VAR{N}, where \VAR{N} equals the number of \acp{PE} participating
     in the operation}.
     The \VAR{source} object contains oldtext{\VAR{PE\_size}} \VAR{N} blocks of data
@@ -139,6 +139,7 @@ CALL @\FuncDecl{SHMEM\_ALLTOALL64}@(dest, source, nelems, PE_start, logPE_stride
     \end{itemize}
 }
 
+\begin{DeprecateBlock}
 \apidesctable{
 The  \dest{}  and \source{} data  objects must conform to certain typing
 constraints, which are as follows:
@@ -146,6 +147,7 @@ constraints, which are as follows:
 
 \apitablerow{shmem\_alltoall64}{\CONST{64} bits aligned.}
 \apitablerow{shmem\_alltoall32}{\CONST{32} bits aligned.}
+\end{DeprecateBlock}
 
 \apireturnvalues{
     \newtext{Zero on successful local completion. Nonzero otherwise.}
