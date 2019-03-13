@@ -18,7 +18,7 @@ int @\FuncDecl{shmem\_broadcast}@(shmem_team_t team, TYPE *dest, const TYPE *sou
 where \TYPE{} is one of the standard \ac{RMA} types specified by Table \ref{stdrmatypes}.
 
 \begin{CsynopsisCol}
-int @\FuncDecl{shmem\_broadcastmem}@(shmem_team_t team, TYPE *dest, const TYPE *source, size_t nelems, int PE_root);
+int @\FuncDecl{shmem\_broadcastmem}@(shmem_team_t team, void *dest, const void *source, size_t nelems, int PE_root);
 \end{CsynopsisCol}
 }
 
@@ -38,7 +38,7 @@ int @\FuncDecl{shmem\_team\_\FuncParam{TYPENAME}\_broadcast}@(shmem_team_t team,
 where \TYPE{} is one of the standard \ac{RMA} types and has a corresponding \TYPENAME{} specified by Table \ref{stdrmatypes}.
 
 \begin{CsynopsisCol}
-int @\FuncDecl{shmem\_team\_broadcastmem}@(shmem_team_t team, TYPE *dest, const TYPE *source, size_t nelems, int PE_root);
+int @\FuncDecl{shmem\_team\_broadcastmem}@(shmem_team_t team, void *dest, const void *source, size_t nelems, int PE_root);
 \end{CsynopsisCol}
 }
 
