@@ -69,33 +69,18 @@ A full discussion of collective semantics follows in Section~\ref{subsec:coll}.
 
 \subsubsection*{Team Creation}
 
-New teams result from a \FUNC{shmem\_team\_split\_*} routine, which takes a parent team
+Team creation is a collective operation on the parent team object. New teams
+result from a \FUNC{shmem\_team\_split\_*} routine, which takes a parent team
 and other arguments and produces new teams that are a subset of the parent
-team. Teams are created by a \FUNC{shmem\_team\_split\_*} routine that defines a
-collective operation over the set of all \acp{PE} which will be in the newly created
-teams. For each new team created by the split operation, a configuration argument
-may be provided to specify attributes of the new team.
-This configuration argument is of type \CTYPE{shmem\_team\_config\_t}, which
-is detailed further in Section~\ref{subsec:shmem_team_config_t}.
+team. All \acp{PE} in a parent team must participate in a split operation
+to create new teams. The semantics for ordering of collective operations
+and performing collectives in multithreaded environments must be followed
+for team split operations. 
 
 Upon completion of a team creation operation, any resulting child teams will be
 immediately usable for any team-based operations, including creating new child teams,
-without any intervening synchronization.
+without any other explicit synchronization on parent or child teams.
 
-In multithreaded environments, the program must ensure that there
-are no simultaneous split operations occurring on the same parent team on a
-given \ac{PE}.
 
-As with any collective routine on a team, team creation is matched across \acp{PE} based
-on ordering. So, team creation events must occur in the same order on all \acp{PE}
-in the new teams.
 
-The creation of new teams may use global symmetric resources associated with
-the parent team. For this reason, the application must guarantee that for
-a given \ac{PE} in a given parent team, there cannot be multiple simultaneous
-split operations involving that \ac{PE} and that parent team on any set of \acp{PE}
-in the \openshmem application.
-This guarantee can always be met by following the rule that when a parent team
-is split multiple times, and the resulting child teams have overlapping membership,
-the program calls the \FUNC{shmem\_team\_sync} routine on the parent team
-between subsequent calls to those split routines.
+
