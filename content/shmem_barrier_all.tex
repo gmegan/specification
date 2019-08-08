@@ -10,13 +10,9 @@
 void @\FuncDecl{shmem\_barrier\_all}@(void);
 \end{Csynopsis}
 
-\begin{Fsynopsis}
-CALL @\FuncDecl{SHMEM\_BARRIER\_ALL}@
-\end{Fsynopsis}
-
 \begin{apiarguments}
 
-    \apiargument{None.}{}{} 
+    \apiargument{None.}{}{}
 
 \end{apiarguments}
 
@@ -24,6 +20,7 @@ CALL @\FuncDecl{SHMEM\_BARRIER\_ALL}@
     The \FUNC{shmem\_barrier\_all} routine \oldtext{registers the arrival of a \ac{PE} at
     a barrier. Barriers are} \newtext{is} a mechanism for synchronizing all \acp{PE} \newtext{in the default team} at
     once. This routine blocks the \newtext{calling} \ac{PE} until all \acp{PE} have called
+
     \FUNC{shmem\_barrier\_all}. In a multithreaded \openshmem
     program, only the calling thread is blocked\newtext{, however,
     it may not be called concurrently by multiple threads in the same \ac{PE}}.
@@ -32,7 +29,7 @@ CALL @\FuncDecl{SHMEM\_BARRIER\_ALL}@
     ensures completion of all previously issued memory stores and remote memory
     updates issued on the default context via \openshmem \acp{AMO} and
     \ac{RMA} routine calls such
-    as \FUNC{shmem\_int\_add}, \FUNC{shmem\_put32}, 
+    as \FUNC{shmem\_int\_add}, \FUNC{shmem\_put32},
     \FUNC{shmem\_put\_nbi}, and \FUNC{shmem\_get\_nbi}.
 }
 
@@ -63,7 +60,7 @@ CALL @\FuncDecl{SHMEM\_BARRIER\_ALL}@
 \apicexample
     { The following \FUNC{shmem\_barrier\_all} example is for \Cstd[11] programs:}
     {./example_code/shmem_barrierall_example.c}
-    {} 
+    {}
 
 \end{apiexamples}
 
