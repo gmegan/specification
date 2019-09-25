@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
         t_size = shmem_team_n_pes(new_team);
         t_pe   = shmem_team_my_pe(new_team);
 
+        /* TODO: use shmem_team_translate - don't assume ordering wrt team-world */
         if ((rank % 2 != 0) || (rank / 2 != t_pe) || (npes / 2 != t_size)) {
             shmem_global_exit(1);
         }
