@@ -15,7 +15,9 @@ the library using an implicit collective synchronization across \acp{PE}.
 Calling any \openshmem routine after \FUNC{shmem\_finalize} leads to undefined
 behavior.
 
-The \acp{PE} of the \openshmem program are identified by unique integers.  The
+\newtext{An OpenSHMEM team is a group of PEs that communicate, as described in
+Section~\ref{subsec:team}.  Each PE is a member of at least one team.}
+The \acp{PE} of the \openshmem \newtext{team} are identified by unique integers.  The
 identifiers are integers assigned in a monotonically increasing manner from zero
 to one less than the total number of \acp{PE}. \ac{PE} identifiers are used for
 \openshmem calls (e.g. to specify \OPR{put} or \OPR{get} routines on symmetric

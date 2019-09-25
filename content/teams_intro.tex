@@ -98,3 +98,11 @@ in the parent team.
 Upon completion of a team creation operation, the parent and any resulting child teams
 will be immediately usable for any team-based operations, including creating new child
 teams, without any intervening synchronization.
+
+\textbf{Note to implementors:}
+Teams are easily represented by a (start, stride, size) triplet; however, implementations
+are not required to limit a team's representation to such a triplet.  In some instances,
+it may be advantageous to explicitly store a table of PE identifiers that map the team
+numbers to the world or parent numbers...}
+
+
